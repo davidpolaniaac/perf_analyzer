@@ -1,0 +1,30 @@
+perf_analyzer:
+  url: "http://httpbin.org/get"
+  execution:
+    execution_type: "sequential"
+    steps: 5
+    increment: 1
+    duration: 2000
+    constant_load: false
+    dataset: "/Users/sample.csv"
+    separator: ","
+  transactions:
+    - name: "Transaction 1"
+      request:
+        method: "GET"
+        path: "/endpoint1"
+        headers:
+          - ["Content-Type", "application/json"]
+        body: "fn item -> ~s|'{\"data\": #{Enum.random(1..10)}, \"key\": \"#{item.columnName}\"}|' end"
+    - name: "Transaction 2"
+      request:
+        method: "PUT"
+        path: "/endpoint2"
+        headers:
+          - ["Content-Type", "application/json"]
+        body: "fn item -> ~s|'{\"data\": #{Enum.random(1..10)}, \"key\": \"#{item.columnName}\"}|' end"
+  distributed: none
+  jmeter_report: true
+
+logger:
+  level: :info
